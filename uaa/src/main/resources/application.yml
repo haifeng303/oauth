@@ -1,0 +1,33 @@
+server:
+  port: 5000
+#  context-path: /uaa
+####oauth2\u8FC7\u6EE4\u5668#############
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+spring:
+  application:
+    name: uaa-service
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/sone?useUnicode=true&characterEncoding=utf8&useSSL=false&useAffectedRows=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        strategy: org.hibernate.cfg.DefaultComponentSafeNamingStrategy
+    show-sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+feign:
+  hystrix:
+    enabled: true
+
