@@ -16,4 +16,9 @@ public class OAuthHystrix implements OAuthFeign {
     public JWT getToken(String authorization, String type, String username, String password) {
         return null;
     }
+
+    @Override
+    public void authorize(String authorization, String type, String client, String uri, String state, String scope) {
+
+    }
 }

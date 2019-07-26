@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -54,14 +55,14 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
                 .secret("123456")
                 .scopes("server")
                 .authorizedGrantTypes("implicit", "refresh_token", "password", "authorization_code")
-                .accessTokenValiditySeconds(60 * 30)
-                .refreshTokenValiditySeconds(60 * 60)
+                .accessTokenValiditySeconds(60 * 60 * 2)
+                .refreshTokenValiditySeconds(60 * 60 * 30)
                 .and()
                 .withClient("client_2")
 //                .resourceIds(DEMO_RESOURCE_ID)
-                .authorizedGrantTypes("password", "refresh_token")
+                .authorizedGrantTypes("authorization_code", "refresh_token")
                 .scopes("app")
-                .secret(bCryptPasswordEncoder().encode("123456"))
+                .secret("123456")
                 .accessTokenValiditySeconds(60 * 30)
                 .refreshTokenValiditySeconds(60 * 60);
     }
@@ -78,6 +79,17 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
         //指定认证管理器 endpoints.authenticationManager(authenticationManager); //指定token存储位置 endpoints.tokenStore(tokenStore()); // token生成方式 endpoints.accessTokenConverter(accessTokenConverter()); endpoints.userDetailsService(userDetailsService);
 
     }
+
+    /**
+     * @author rhf30
+     * @descript 开启token验证 允许访问/oauth/check_token
+     * @params [security]
+     * @return void
+     */
+//    @Override
+//    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+//        security.tokenKeyAccess("permitAll()") .checkTokenAccess("permitAll()");
+//    }
 
     @Bean
     public TokenStore tokenStore() {

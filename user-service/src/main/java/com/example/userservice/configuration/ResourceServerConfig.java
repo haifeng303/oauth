@@ -8,8 +8,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
-import java.security.KeyStore;
-
 /**
  * @author rhf30
  * @Title: haifeng
@@ -33,8 +31,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/login","/user/register")
+                .antMatchers("/user/login","/user/register","/oauth/*")
                 .permitAll()
                 .antMatchers("/**").authenticated();
     }
+
 }
