@@ -2,6 +2,7 @@ package com.example.userservice.feign;
 
 import com.example.userservice.POJO.DO.JWT;
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +32,7 @@ public interface OAuthFeign {
      * @params [authorization, type, username, password] 
      * @return void 
      */
-    @PostMapping(value = "/oauth/authorize")
+    @GetMapping(value = "/oauth/authorize")
     void authorize(@RequestHeader(value = "Authorization") String authorization, @RequestParam("response_type") String type,
                    @RequestParam("client_id") String client, @RequestParam("redirect_uri") String uri
             , @RequestParam(name = "state", required = false)String state,@RequestParam(name = "scope", required = false)String scope);

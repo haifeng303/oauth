@@ -37,9 +37,10 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     private AuthenticationManager authenticationManager;
 
     @Bean
-    public PasswordEncoder bCryptPasswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
     /**
      * @return void
@@ -54,13 +55,13 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
                 //此处密码在验证的时候DaoAuthenticationProvider的additionalAuthenticationChecks方法验证时会处理
                 .secret("123456")
                 .scopes("server")
-                .authorizedGrantTypes("implicit", "refresh_token", "password", "authorization_code")
+                .authorizedGrantTypes("client_credentials","implicit", "password", "authorization_code", "refresh_token")
                 .accessTokenValiditySeconds(60 * 60 * 2)
                 .refreshTokenValiditySeconds(60 * 60 * 30)
                 .and()
                 .withClient("client_2")
 //                .resourceIds(DEMO_RESOURCE_ID)
-                .authorizedGrantTypes("authorization_code", "refresh_token")
+                .authorizedGrantTypes("authorization_code","client_credentials", "refresh_token")
                 .scopes("app")
                 .secret("123456")
                 .accessTokenValiditySeconds(60 * 30)
@@ -75,7 +76,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore()).accessTokenConverter(jwtTokenEnhancer()).authenticationManager(authenticationManager);
+        endpoints.tokenStore(tokenStore()).accessTokenConverter(jwtTokenEnhancer()).authenticationManager(authenticationManager).pathMapping("/oauth/confirm_access", "/custom/confirm_access");
         //指定认证管理器 endpoints.authenticationManager(authenticationManager); //指定token存储位置 endpoints.tokenStore(tokenStore()); // token生成方式 endpoints.accessTokenConverter(accessTokenConverter()); endpoints.userDetailsService(userDetailsService);
 
     }
@@ -86,10 +87,12 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
      * @params [security]
      * @return void
      */
-//    @Override
-//    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-//        security.tokenKeyAccess("permitAll()") .checkTokenAccess("permitAll()");
-//    }
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        //这个如果配置支持allowFormAuthenticationForClients的，且url中有client_id和client_secret的会走ClientCredentialsTokenEndpointFilter来保护
+        //如果没有支持allowFormAuthenticationForClients或者有支持但是url中没有client_id和client_secret的，走basic认证保护
+        security.tokenKeyAccess("permitAll()") .checkTokenAccess("permitAll()").allowFormAuthenticationForClients();
+    }
 
     @Bean
     public TokenStore tokenStore() {

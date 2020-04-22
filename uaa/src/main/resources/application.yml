@@ -7,6 +7,13 @@ security:
     resource:
       filter-order: 3
 spring:
+  thymeleaf:
+    content-type: text/html
+    cache: false
+    mode: LEGACYHTML5
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
   application:
     name: uaa-service
   datasource:

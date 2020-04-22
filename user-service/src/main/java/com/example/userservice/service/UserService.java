@@ -43,6 +43,7 @@ public class UserService implements UserDetailsService {
         {
 
         }
+        //Y2xpZW50XzE6MTIzNDU2使用base64解码后 client_1:123456
         JWT jwt =  oAuthFeign.getToken("Basic Y2xpZW50XzE6MTIzNDU2", "password", username, password);
         UserLoginDTO userLoginDTO = new UserLoginDTO();
         userLoginDTO.setJwt(jwt);

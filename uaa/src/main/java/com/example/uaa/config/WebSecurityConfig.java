@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Configuration
 @EnableWebSecurity
+@Order(10)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -49,18 +51,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-                .and()
-                .formLogin()
-                .loginPage("/login.html")
-                .permitAll()
-                .and()
                 .authorizeRequests()
-                .antMatchers("/test/**", "/oauth/**")
+                .antMatchers("/","/oauth/**","/login", "/custom/confirm_access","/test/**", "/health", "/css/**")
                 .permitAll()
                 .anyRequest().authenticated()
-                .and().httpBasic();
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                ;
+//        http.csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/","/oauth/**","/login","/health", "/css/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .permitAll();
     }
 
 }
