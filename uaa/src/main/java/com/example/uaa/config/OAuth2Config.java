@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -35,6 +36,10 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Autowired
     @Qualifier(value = "authenticationManagerBean")
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    @Qualifier("userService") //此处必须加上注入  否则会出现UserDetailsService is required错误
+    private UserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -76,7 +81,8 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore()).accessTokenConverter(jwtTokenEnhancer()).authenticationManager(authenticationManager).pathMapping("/oauth/confirm_access", "/custom/confirm_access");
+        //pathMapping 配置自定义授权路径
+        endpoints.tokenStore(tokenStore()).accessTokenConverter(jwtTokenEnhancer()).userDetailsService(this.userDetailsService).authenticationManager(authenticationManager).pathMapping("/oauth/confirm_access", "/custom/confirm_access");
         //指定认证管理器 endpoints.authenticationManager(authenticationManager); //指定token存储位置 endpoints.tokenStore(tokenStore()); // token生成方式 endpoints.accessTokenConverter(accessTokenConverter()); endpoints.userDetailsService(userDetailsService);
 
     }
