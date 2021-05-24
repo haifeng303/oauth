@@ -1,7 +1,7 @@
 server:
   port: 5000
 #  context-path: /uaa
-####oauth2\u8FC7\u6EE4\u5668#############
+####oauth2过滤器#############
 security:
   oauth2:
     resource:
@@ -37,4 +37,3 @@ eureka:
 feign:
   hystrix:
     enabled: true
-

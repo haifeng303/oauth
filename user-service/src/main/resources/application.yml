@@ -1,7 +1,7 @@
 server:
   port: 5001
 #  context-path: /user
-####oauth2\u8FC7\u6EE4\u5668#############
+####oauth2过滤器#############
 security:
   oauth2:
     resource:
@@ -34,8 +34,9 @@ feign:
 ribbon:
   eureka:
     enabled: true
-##必须加此
-uaa-service:
-  ribbon:
-    listOfServers: http://localhost:5000
-
+##不使用eureka自动获取服务列表
+#uaa-service:
+#  ribbon:
+#    listOfServers: http://localhost:5000
+#    eureka:
+#      enabled: false
