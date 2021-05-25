@@ -7,17 +7,17 @@
         <artifactId>feng-cloud-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <groupId>com.example</groupId>
-    <artifactId>oauth</artifactId>
+    <groupId>com.github.fengzai</groupId>
+    <artifactId>feng-cloud-oauth</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>oauth</name>
+    <name>feng-cloud-oauth</name>
     <description>oauth鉴权认证</description>
     <packaging>pom</packaging>
 
     <modules>
-        <module>eureka</module>
-        <module>uaa</module>
-        <module>user-service</module>
+        <module>feng-cloud-oauth-eureka</module>
+        <module>feng-cloud-oauth-uaa</module>
+        <module>feng-cloud-oauth-app</module>
     </modules>
 
 </project>

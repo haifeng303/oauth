@@ -1,0 +1,72 @@
+server:
+  port: 5000
+#  context-path: /uaa
+####oauth2过滤器#############
+security:
+  oauth2:
+    resource:
+      filter-order: 3
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  thymeleaf:
+    content-type: text/html
+    cache: false
+    mode: LEGACYHTML5
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  application:
+    name: @project.name@
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oauth?useUnicode=true&characterEncoding=utf8&useSSL=false&useAffectedRows=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    auto-commit: true
+    default-auto-commit: true
+    hikari:
+      auto-commit: true
+      connection-test-query: SELECT 1
+      connection-timeout: 30000
+      idle-timeout: 30000
+      max-lifetime: 30000
+      maximum-pool-size: 150
+      minimum-idle: 5
+      pool-name: DatebookHikariCP
+    minEvictableIdleTimeMillis: 300000
+    time-between-eviction-runs-millis: 18800
+    type: com.zaxxer.hikari.HikariDataSource
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        strategy: org.hibernate.cfg.DefaultComponentSafeNamingStrategy
+    show-sql: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+logging:
+  config: classpath:logback.xml
+  file:
+    name: apps/logs/${spring.application.name}/${spring.application.name}
+  level:
+    com:
+      alibaba:
+        nacos: 'OFF'
+      payfu:
+        payment:
+          dal:
+            mapper: debug
+    root: info
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+feign:
+  hystrix:
+    enabled: true
