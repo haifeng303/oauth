@@ -5,11 +5,11 @@
     <parent>
         <groupId>io.github.haifeng303</groupId>
         <artifactId>feng-cloud-oauth</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <groupId>io.github.haifeng303</groupId>
     <artifactId>feng-cloud-oauth-app</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>feng-cloud-oauth-app</name>
     <description>用户服务</description>
 
